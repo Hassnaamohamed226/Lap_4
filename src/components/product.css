@@ -1,0 +1,9 @@
+.car{
+    display: inline;
+    border: 10px;
+    
+    text-align: center;
+    padding-top: 80px;
+    
+    text-shadow: white 5px;
+}
