@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Form from "../components/form";
+import { useDispatch, useSelector } from 'react-redux';
+import Navbar from '../components/navbar'
+import { addToFavorites, removeFromFavorites } from '../favoritesActions';
 const HomeScreen = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,8 +44,22 @@ const HomeScreen = () => {
     }
   };
 
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites);
+  
+  const isFavorite = favorites.includes(products.id);
+  const toggleFavorite = () => {
+    
+    if (isFavorite) {
+      dispatch(removeFromFavorites(products.id));
+    } else {
+      dispatch(addToFavorites(products.id));
+    }
+  };
+
   return (
     <div>
+      <Navbar />
       <Form
         onsubmit={handleSubmit}
         onchange={handleInputChange}
@@ -62,6 +79,8 @@ const HomeScreen = () => {
                   pimage={result.thumbnail}
                   ptitle={result.title}
                   pdescription={result.description}
+                  hundelfavorit={toggleFavorite}
+                  content={isFavorite ? '❤️' : '🤍'}
                 />
               </Link>
             </div>
@@ -81,6 +100,8 @@ const HomeScreen = () => {
                   pimage={result.thumbnail}
                   ptitle={result.title}
                   pdescription={result.description}
+                  hundelfavorit={toggleFavorite}
+                  content={isFavorite ? '❤️' : '🤍'}
                 />
               </Link>
             </div>
